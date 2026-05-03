@@ -1,0 +1,12 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+/.godot
+/.idea
+/.vs
+/.vs
+/.idea
+*.import
+*.uid
