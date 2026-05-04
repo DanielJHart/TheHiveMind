@@ -1,6 +1,7 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Rewards;
@@ -18,29 +19,28 @@ public class UniversalMind() : TheHiveMindRelic
     
     public override RelicRarity Rarity => RelicRarity.Starter;
 
+    private List<CardPoolModel> pools = TheHiveMindHelper.GetTheHivePools();
+
     public override IEnumerable<CardModel> ModifyMerchantCardPool(Player player, IEnumerable<CardModel> options)
     {
-        _merchantCardCount += 1;
-
-        switch (_merchantCardCount)
+        // We go through regular cards first.
+        if (options.First().Pool.GetType() != typeof(ColorlessCardPool))
         {
-            case 1:
-                return ModelDb.CardPool<IroncladCardPool>().GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
-            case 2:
-                return ModelDb.CardPool<SilentCardPool>().GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
-            case 3:
-                return ModelDb.CardPool<RegentCardPool>().GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
-            case 4:
-                return ModelDb.CardPool<NecrobinderCardPool>().GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
-            case 5:
-                return ModelDb.CardPool<DefectCardPool>().GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
-            case 6:
-                return base.ModifyMerchantCardPool(player, options);
-            case 7:
-                _merchantCardCount = 0;
-                return base.ModifyMerchantCardPool(player, options);
-            default:
-                return base.ModifyMerchantCardPool(player, options);
+            CardPoolModel pool = pools.TakeRandom(1, player.RunState.Rng.Shuffle).First();
+            pools.Remove(pool);
+            
+            if (pools.Count == 0)
+            {
+                pools = TheHiveMindHelper.GetTheHivePools();
+            }
+            
+            return pool.GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
+        }
+        else
+        {
+            // Then we go through colorless.
+            
+            return base.ModifyMerchantCardPool(player, options);
         }
     }
     
