@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Rooms;
 using TheHiveMind.TheHiveMindCode.Cards;
@@ -23,6 +24,8 @@ public class TheHiveMind : PlaceholderCharacterModel
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Neutral;
     public override int StartingHp => 70;
+    
+    protected override CharacterModel? UnlocksAfterRunAs => (CharacterModel) ModelDb.Character<Defect>();
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
