@@ -61,6 +61,7 @@
 
     <ItemGroup>
         <Folder Include="TheHiveMind\images\card_portraits\big\"/>
+        <Folder Include="TheHiveMind\images\charui\hands\" />
         <Folder Include="TheHiveMind\images\powers\big\"/>
         <Folder Include="TheHiveMind\images\relics\big\"/>
     </ItemGroup>
