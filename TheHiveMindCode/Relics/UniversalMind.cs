@@ -23,25 +23,30 @@ public class UniversalMind() : TheHiveMindRelic
 
     public override IEnumerable<CardModel> ModifyMerchantCardPool(Player player, IEnumerable<CardModel> options)
     {
-        // We go through regular cards first.
-        if (options.First().Pool.GetType() != typeof(ColorlessCardPool))
+        if (player == this.Owner)
         {
-            CardPoolModel pool = pools.TakeRandom(1, player.RunState.Rng.Shuffle).First();
-            pools.Remove(pool);
-            
-            if (pools.Count == 0)
+            // We go through regular cards first.
+            if (options.First().Pool.GetType() != typeof(ColorlessCardPool))
             {
-                pools = TheHiveMindHelper.GetTheHivePools();
+                CardPoolModel pool = pools.TakeRandom(1, player.RunState.Rng.Shuffle).First();
+                pools.Remove(pool);
+            
+                if (pools.Count == 0)
+                {
+                    pools = TheHiveMindHelper.GetTheHivePools();
+                }
+            
+                return pool.GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
             }
+            else
+            {
+                // Then we go through colorless.
             
-            return pool.GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
+                return base.ModifyMerchantCardPool(player, options);
+            }   
         }
-        else
-        {
-            // Then we go through colorless.
-            
-            return base.ModifyMerchantCardPool(player, options);
-        }
+        
+        return base.ModifyMerchantCardPool(player, options);
     }
     
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
