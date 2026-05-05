@@ -23,7 +23,7 @@ public class PickACard() : TheHiveMindCard(0,
         CardPlay play)
     {
         PickACard pickACard = this;
-        CardModel card;
+        CardModel? card;
         if (pickACard._mockSelectedCard == null)
             card = await CardSelectCmd.FromChooseACardScreen(choiceContext, (IReadOnlyList<CardModel>) TheHiveMindHelper.GetThreeHiveMindCards(pickACard.Owner), pickACard.Owner, true);
         else

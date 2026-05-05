@@ -15,8 +15,6 @@ namespace TheHiveMind.TheHiveMindCode.Relics;
 [Pool(typeof(TheHiveMindRelicPool))]
 public class UniversalMind() : TheHiveMindRelic
 {
-    private int _merchantCardCount = 0;
-    
     public override RelicRarity Rarity => RelicRarity.Starter;
 
     private List<CardPoolModel> pools = TheHiveMindHelper.GetTheHivePools();
