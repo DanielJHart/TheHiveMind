@@ -1,5 +1,9 @@
 {
   "THEHIVEMIND-UNIVERSAL_MIND.title": "Universal Mind",
   "THEHIVEMIND-UNIVERSAL_MIND.description": "Card rewards contain one card from each other character.",
-  "THEHIVEMIND-UNIVERSAL_MIND.flavor": "I AM LEGION."
+  "THEHIVEMIND-UNIVERSAL_MIND.flavor": "I AM LEGION.",
+
+  "THEHIVEMIND-UNIVERSAL_CONSCIOUS.title": "Universal Conscious",
+  "THEHIVEMIND-UNIVERSAL_CONSCIOUS.description": "Card rewards contain one card from each other character, and can be rerolled.",
+  "THEHIVEMIND-UNIVERSAL_CONSCIOUS.flavor": "I KNOW ALL."
 }
