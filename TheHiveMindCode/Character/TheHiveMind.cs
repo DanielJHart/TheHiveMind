@@ -83,4 +83,6 @@ public class TheHiveMind : PlaceholderCharacterModel
     public override string CustomMapMarkerPath => "map_marker_the_hive_mind.png".CharacterUiPath();
     public override string CustomArmPointingTexturePath => "multiplayer_hand_the_hive_mind_point.png".CharacterHandUiPath();
     public override string CustomArmRockTexturePath => "multiplayer_hand_the_hive_mind_rock.png".CharacterHandUiPath();
+    public override string CustomArmPaperTexturePath => "multiplayer_hand_the_hive_mind_paper.png".CharacterHandUiPath();
+    public override string CustomArmScissorsTexturePath => "multiplayer_hand_the_hive_mind_scissors.png".CharacterHandUiPath();
 }
