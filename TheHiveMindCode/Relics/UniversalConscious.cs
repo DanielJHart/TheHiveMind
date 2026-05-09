@@ -11,7 +11,7 @@ namespace TheHiveMind.TheHiveMindCode.Relics;
 [Pool(typeof(TheHiveMindRelicPool))]
 public class UniversalConscious() : UniversalMind
 {
-    public override RelicRarity Rarity => RelicRarity.Starter;
+    public override RelicRarity Rarity => RelicRarity.Ancient;
 
     public override bool TryModifyRewardsLate(Player player, List<Reward> rewards, AbstractRoom? room)
     {

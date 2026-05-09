@@ -1,4 +1,5 @@
 ﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Extensions;
@@ -17,7 +18,7 @@ public class UniversalMind() : TheHiveMindRelic
 {
     public override RelicRarity Rarity => RelicRarity.Starter;
 
-    private List<CardPoolModel> pools = TheHiveMindHelper.GetTheHivePools();
+    private List<CardPoolModel> _pools = TheHiveMindHelper.GetTheHivePools();
 
     public override IEnumerable<CardModel> ModifyMerchantCardPool(Player player, IEnumerable<CardModel> options)
     {
@@ -26,64 +27,36 @@ public class UniversalMind() : TheHiveMindRelic
             // We go through regular cards first.
             if (options.First().Pool.GetType() != typeof(ColorlessCardPool))
             {
-                CardPoolModel pool = pools.TakeRandom(1, player.RunState.Rng.Shuffle).First();
-                pools.Remove(pool);
+                CardPoolModel pool = _pools.TakeRandom(1, player.RunState.Rng.Shuffle).First();
+                _pools.Remove(pool);
             
-                if (pools.Count == 0)
+                if (_pools.Count == 0)
                 {
-                    pools = TheHiveMindHelper.GetTheHivePools();
+                    _pools = TheHiveMindHelper.GetTheHivePools();
                 }
             
                 return pool.GetUnlockedCards(player.UnlockState,  player.RunState.CardMultiplayerConstraint);
             }
-            else
-            {
-                // Then we go through colorless.
-            
-                return base.ModifyMerchantCardPool(player, options);
-            }   
         }
         
         return base.ModifyMerchantCardPool(player, options);
     }
-    
-    public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
+
+    public override bool TryModifyCardRewardOptions(Player player, List<CardCreationResult> cardRewardOptions, CardCreationOptions creationOptions)
     {
-        if (player != this.Owner || room == null)
+        if (player != this.Owner)
             return false;
+        
+        cardRewardOptions.Clear();
+        List<CardModel> cards = TheHiveMindHelper.GetTheHiveRewards(player, creationOptions.RarityOdds);
 
-        switch (room.RoomType)
+        foreach (CardModel card in cards)
         {
-            case RoomType.Monster:
-            case RoomType.Elite:
-            case RoomType.Boss:
-                // Remove current card award.
-                CardReward? cardReward = rewards.First(x => x is CardReward ) as CardReward;
-
-                if (cardReward != null)
-                {
-                    rewards.Remove(cardReward);
-                }
-
-                CardRarityOddsType odds = CardRarityOddsType.RegularEncounter;
-
-                if (room.RoomType == RoomType.Elite)
-                {
-                    odds = CardRarityOddsType.EliteEncounter;
-                }
-                else if (room.RoomType == RoomType.Boss)
-                {
-                    odds = CardRarityOddsType.BossEncounter;
-                }
-                
-                List<CardModel> cards = TheHiveMindHelper.GetTheHiveRewards(player, odds);
-                rewards.Add((Reward)new CardReward(cards, CardCreationSource.Other, player));
-                return true;
-            default:
-                base.TryModifyRewards(player, rewards, room);
-                break;
+            CardCreationResult cardCreationResult = new CardCreationResult(card);
+            cardCreationResult.ModifyCard(card, this);
+            cardRewardOptions.Add(cardCreationResult);
         }
-
+        
         return true;
     }
 }
