@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://02mjwm4br8g6"]
+
+[ext_resource type="Texture2D" uid="uid://bfvue0kfa0uju" path="res://TheHiveMind/images/charui/char_select_bg_the_hive_mind.png" id="1_3bbvd"]
+[ext_resource type="PackedScene" uid="uid://d4k2ig4l2q5cw" path="res://scenes/screens/char_select/char_select_bg_ironclad.tscn" id="1_8jqgx"]
+
+[node name="CharSelectBgTheHiveMind" type="Control" unique_id=1962722466]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="IroncladBg" parent="." unique_id=1930680839 instance=ExtResource("1_8jqgx")]
+visible = false
+layout_mode = 1
+offset_left = 0.0
+offset_top = 17.0
+offset_right = 2560.0
+offset_bottom = 1217.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1416620808]
+position = Vector2(1186, 550.5)
+scale = Vector2(0.9253731, 0.92951906)
+texture = ExtResource("1_3bbvd")

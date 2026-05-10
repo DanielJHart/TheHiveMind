@@ -73,4 +73,9 @@ public static class StringExtensions
     {
         return Path.Join(MainFile.ResPath, "images", "charui", "hands", path);
     }
+
+    public static string ScenesPath(this string path)
+    {
+        return Path.Join(MainFile.ResPath, "scenes", path);
+    }
 }
